@@ -20,8 +20,10 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
+
+        <% if (locals.user) { %>
         <li class="nav-item">
-          <a class="nav-link" href="#">Add Blog</a>
+          <a class="nav-link" href="/blog/add-new">Add Blog</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -35,10 +37,22 @@
             piyush garg
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">log out</a></li>
+            <li><a class="dropdown-item" href="/user/logout">log out</a></li>
           </ul>
         </li>
+        <% } else {%>
+        <li class="nav-item">
+          <a class="nav-link" href="/user.signup">create</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/signin">signin</a>
+        </li>
+        <% } %>
       </ul>
     </div>
   </div>
 </nav>
+
+<% if (locals.error) { %>
+<div class="alert alert-light" role="alert"><%= locals.error %></div>
+<% } %>
