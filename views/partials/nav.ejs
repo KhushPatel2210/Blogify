@@ -1,51 +1,77 @@
-<nav
-  class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body"
-  data-bs-theme="dark"
->
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Blogify</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">
+      <i class="fas fa-blog me-2"></i>Blogify
+    </a>
     <button
       class="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a
+            class="nav-link <%= currentPath === '/' ? 'active' : '' %>"
+            href="/"
+          >
+            <i class="fas fa-home me-1"></i> Home
+          </a>
         </li>
-
+      </ul>
+      <ul class="navbar-nav">
         <% if (locals.user) { %>
         <li class="nav-item">
-          <a class="nav-link" href="/blog/add-new">Add Blog</a>
+          <a
+            class="nav-link <%= currentPath === '/blog/add-new' ? 'active' : '' %>"
+            href="/blog/add-new"
+          >
+            <i class="fas fa-plus-circle me-1"></i> Add Blog
+          </a>
         </li>
-
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
             href="#"
             role="button"
             data-bs-toggle="dropdown"
-            aria-expanded="false"
           >
-            piyush garg
+            <img
+              src="<%= user.profileImageURL || '/images/default.png' %>"
+              width="30"
+              height="30"
+              class="rounded-circle me-1"
+            />
+
+            <%= user.fullName %>
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/user/logout">log out</a></li>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="/user/logout"
+                ><i class="fas fa-sign-out-alt me-2"></i>Log out</a
+              >
+            </li>
           </ul>
         </li>
-        <% } else {%>
+        <% } else { %>
         <li class="nav-item">
-          <a class="nav-link" href="/user.signup">create</a>
+          <a
+            class="nav-link <%= currentPath === '/user/signup' ? 'active' : '' %>"
+            href="/user/signup"
+          >
+            <i class="fas fa-user-plus me-1"></i> Sign Up
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/user/signin">signin</a>
+          <a
+            class="nav-link <%= currentPath === '/user/signin' ? 'active' : '' %>"
+            href="/user/signin"
+          >
+            <i class="fas fa-sign-in-alt me-1"></i> Sign In
+          </a>
         </li>
         <% } %>
       </ul>
@@ -54,5 +80,16 @@
 </nav>
 
 <% if (locals.error) { %>
-<div class="alert alert-light" role="alert"><%= locals.error %></div>
+<div
+  class="alert alert-danger alert-dismissible fade show mb-0 rounded-0"
+  role="alert"
+>
+  <%= locals.error %>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
 <% } %>

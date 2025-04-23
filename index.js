@@ -30,6 +30,12 @@ app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
 app.use(express.static(path.resolve("./public")));
 
+// ✅ Middleware to make currentPath available in all views
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  next();
+});
+
 app.get("/", async (req, res) => {
   const allBlogs = await Blog.find({});
   res.render("home", {
