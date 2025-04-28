@@ -19,7 +19,7 @@ router.post("/signin", async (req, res) => {
     return res.cookie("token", token).redirect("/");
   } catch (error) {
     return res.render("signin", {
-      error: "incorrect email or password",
+      error: "Incorrect email or password",
     });
   }
 });
@@ -30,12 +30,34 @@ router.get("/logout", (req, res) => {
 
 router.post("/signup", async (req, res) => {
   const { fullName, email, password } = req.body;
-  await User.create({
-    fullName,
-    email,
-    password,
-  });
-  return res.redirect("/");
+
+  try {
+    // Check if a user with the same email exists
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      // If user exists — generate token and redirect to home with token
+      const token = await User.matchPasswordAndGenerateToken(email, password);
+      return res.cookie("token", token).redirect("/");
+    }
+
+    // Create new user
+    const newUser = await User.create({
+      fullName,
+      email,
+      password,
+    });
+
+    // Generate token for the newly created user
+    const token = await User.matchPasswordAndGenerateToken(email, password);
+
+    return res.cookie("token", token).redirect("/");
+  } catch (error) {
+    console.error(error);
+    return res.render("signup", {
+      error: "Something went wrong. Please try again.",
+    });
+  }
 });
 
 module.exports = router;
