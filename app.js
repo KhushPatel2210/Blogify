@@ -59,4 +59,7 @@ app.use("/user", userRoute);
 app.use("/blog", blogRoute);
 
 // Start the Express server and listen for incoming requests on the specified PORT
-app.listen(PORT, () => console.log(`Server started at ${PORT}`));
+app.listen(process.env.PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${process.env.PORT}`);
+});
+
